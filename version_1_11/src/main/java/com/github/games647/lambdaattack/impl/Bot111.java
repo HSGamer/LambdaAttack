@@ -1,4 +1,4 @@
-package com.github.games647.lambdaattack.version.v1_14;
+package com.github.games647.lambdaattack.impl;
 
 import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.bot.AbstractBot;
@@ -12,18 +12,15 @@ import com.github.steveice10.packetlib.tcp.TcpSessionFactory;
 
 import java.net.Proxy;
 
-public class Bot114 extends AbstractBot {
-    public Bot114(BotOptions botOptions, Profile profile, Proxy proxy) {
+public class Bot111 extends AbstractBot {
+    private Session session;
+
+    Bot111(BotOptions botOptions, Profile profile, Proxy proxy) {
         super(botOptions, profile, proxy);
     }
 
     @Override
-    public void sendMessage(String message) {
-        getSession().send(new ClientChatPacket(message));
-    }
-
-    @Override
-    protected Session createSession(String host, int port) {
+    public void connect(String host, int port) {
         MinecraftProtocol protocol;
         if (getProfile().password.isEmpty()) {
             protocol = new MinecraftProtocol(getProfile().name);
@@ -41,8 +38,23 @@ public class Bot114 extends AbstractBot {
         } else {
             client = new Client(host, port, protocol, new TcpSessionFactory(getProxy()));
         }
-        Session session = client.getSession();
-        session.addListener(new SessionListener114(this));
-        return session;
+        session = client.getSession();
+        session.addListener(new SessionListener111(this));
+        session.connect();
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        session.send(new ClientChatPacket(message));
+    }
+
+    @Override
+    public boolean isOnline() {
+        return session.isConnected();
+    }
+
+    @Override
+    public void disconnect() {
+        session.disconnect("Disconnect");
     }
 }

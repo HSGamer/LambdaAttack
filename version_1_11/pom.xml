@@ -20,12 +20,6 @@
                 <version>3.1.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <relocations>
-                        <relocation>
-                            <pattern>com.github.steveice10.mc.protocol</pattern>
-                            <shadedPattern>com.github.steveice10.protocol.v1_11</shadedPattern>
-                        </relocation>
-                    </relocations>
                 </configuration>
                 <executions>
                     <execution>
@@ -45,7 +39,6 @@
             <groupId>com.github.GeyserMC</groupId>
             <artifactId>MCProtocolLib</artifactId>
             <version>1.11.2-1</version>
-            <optional>true</optional>
         </dependency>
 
         <dependency>

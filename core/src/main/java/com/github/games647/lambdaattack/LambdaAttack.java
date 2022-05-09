@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LambdaAttack {
 
     public static final String PROJECT_NAME = "LambdaAttack";
+    public static final String VERSION = LambdaAttack.class.getPackage().getImplementationVersion();
 
     private static final Logger LOGGER = Logger.getLogger(PROJECT_NAME);
     private static final LambdaAttack instance = new LambdaAttack();
@@ -36,6 +38,13 @@ public class LambdaAttack {
     public void start(Options options) {
         running = true;
 
+        BotCreator creator = options.gameVersion.getLoader().load().join();
+        if (creator == null) {
+            LOGGER.log(Level.SEVERE, "Failed to load the bot creator for {0}", options.gameVersion.getVersion());
+            running = false;
+            return;
+        }
+
         for (int i = 0; i < options.amount; i++) {
             String username = String.format(options.botNameFormat, i);
             if (names != null) {
@@ -48,7 +57,6 @@ public class LambdaAttack {
             }
 
             Profile profile = new Profile(username, "");
-            BotCreator creator = options.gameVersion.getCreator();
 
             AbstractBot bot;
             if (proxies != null) {

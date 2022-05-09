@@ -2,7 +2,6 @@ package com.github.games647.lambdaattack.bot;
 
 import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.profile.Profile;
-import com.github.steveice10.packetlib.Session;
 
 import java.net.Proxy;
 import java.util.logging.Level;
@@ -15,8 +14,6 @@ public abstract class AbstractBot {
     private final Proxy proxy;
     private final Profile profile;
     private final Logger logger;
-
-    private Session session;
     private EntitiyLocation location;
     private float health = -1;
     private float food = -1;
@@ -28,22 +25,13 @@ public abstract class AbstractBot {
         this.logger = Logger.getLogger(profile.name);
     }
 
-    public void connect(String host, int port) {
-        this.session = createSession(host, port);
-        session.connect();
-    }
+    public abstract void connect(String host, int port);
 
     public abstract void sendMessage(String message);
 
-    protected abstract Session createSession(String host, int port);
+    public abstract boolean isOnline();
 
-    public boolean isOnline() {
-        return session != null && session.isConnected();
-    }
-
-    public Session getSession() {
-        return session;
-    }
+    public abstract void disconnect();
 
     public EntitiyLocation getLocation() {
         return location;
@@ -83,12 +71,6 @@ public abstract class AbstractBot {
 
     public BotOptions getOptions() {
         return botOptions;
-    }
-
-    public void disconnect() {
-        if (session != null) {
-            session.disconnect("Disconnect");
-        }
     }
 
     public void onDisconnect(String reason, Throwable cause) {

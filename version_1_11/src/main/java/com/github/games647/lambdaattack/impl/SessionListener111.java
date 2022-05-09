@@ -1,4 +1,4 @@
-package com.github.games647.lambdaattack.version.v1_12;
+package com.github.games647.lambdaattack.impl;
 
 import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.bot.EntitiyLocation;
@@ -13,10 +13,10 @@ import com.github.steveice10.packetlib.event.session.SessionAdapter;
 
 import java.util.logging.Level;
 
-public class SessionListener112 extends SessionAdapter {
+public class SessionListener111 extends SessionAdapter {
     private final AbstractBot owner;
 
-    public SessionListener112(AbstractBot owner) {
+    SessionListener111(AbstractBot owner) {
         this.owner = owner;
     }
 
