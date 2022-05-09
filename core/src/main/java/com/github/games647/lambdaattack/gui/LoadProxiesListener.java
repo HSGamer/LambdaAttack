@@ -1,19 +1,17 @@
 package com.github.games647.lambdaattack.gui;
 
 import com.github.games647.lambdaattack.LambdaAttack;
-import com.github.steveice10.packetlib.ProxyInfo;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 
 public class LoadProxiesListener implements ActionListener {
 
@@ -38,12 +36,12 @@ public class LoadProxiesListener implements ActionListener {
 
             botManager.getThreadPool().submit(() -> {
                 try {
-                    List<ProxyInfo> proxies = Files.lines(proxyFile).distinct().map((line) -> {
+                    List<Proxy> proxies = Files.lines(proxyFile).distinct().map((line) -> {
                         String host = line.split(":")[0];
                         int port = Integer.parseInt(line.split(":")[1]);
 
                         InetSocketAddress address = new InetSocketAddress(host, port);
-                        return new ProxyInfo(ProxyInfo.Type.SOCKS5, address);
+                        return new Proxy(Proxy.Type.SOCKS, address);
                     }).collect(Collectors.toList());
 
                     LambdaAttack.getLogger().log(Level.INFO, "Loaded {0} proxies", proxies.size());

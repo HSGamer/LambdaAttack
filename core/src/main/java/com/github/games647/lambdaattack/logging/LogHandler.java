@@ -1,11 +1,9 @@
 package com.github.games647.lambdaattack.logging;
 
+import javax.swing.*;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 public class LogHandler extends Handler {
 
@@ -17,8 +15,8 @@ public class LogHandler extends Handler {
     }
 
     @Override
-    public void publish(LogRecord record) {
-        String formatted = formatter.format(record);
+    public void publish(LogRecord logRecord) {
+        String formatted = formatter.format(logRecord);
         SwingUtilities.invokeLater(() -> logArea.append(formatted));
     }
 

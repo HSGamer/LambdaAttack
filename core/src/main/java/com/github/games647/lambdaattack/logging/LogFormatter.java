@@ -13,14 +13,14 @@ public class LogFormatter extends Formatter {
     private final Date date = new Date();
 
     @Override
-    public String format(LogRecord record) {
+    public String format(LogRecord logRecord) {
         StringBuilder builder = new StringBuilder();
 
-        date.setTime(record.getMillis());
+        date.setTime(logRecord.getMillis());
         builder.append(dateFormat.format(date)).append(' ');
-        builder.append(record.getLevel()).append(' ');
-        builder.append('[').append(record.getLoggerName()).append(']').append(' ');
-        builder.append(formatMessage(record));
+        builder.append(logRecord.getLevel()).append(' ');
+        builder.append('[').append(logRecord.getLoggerName()).append(']').append(' ');
+        builder.append(formatMessage(logRecord));
         builder.append("\n");
         return builder.toString();
     }

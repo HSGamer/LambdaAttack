@@ -1,13 +1,10 @@
 package com.github.games647.lambdaattack;
 
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 public class CommandLineParser {
 
@@ -26,37 +23,6 @@ public class CommandLineParser {
 
     private CommandLine cmd;
 
-    static class ParseResult {
-        final boolean showHelp;
-        final com.github.games647.lambdaattack.Options options;
-
-        ParseResult(boolean showHelp, com.github.games647.lambdaattack.Options options) {
-            this.showHelp = showHelp;
-            this.options = options;
-        }
-    }
-
-    static ParseResult parse(String[] args) throws ParseException {
-        CommandLineParser cli = new CommandLineParser();
-        cli.doParse(args);
-
-        return new ParseResult(
-                cli.shouldPrintHelp(),
-                new com.github.games647.lambdaattack.Options(
-                        cli.getHostname(),
-                        cli.getPort(),
-                        cli.getAmount(),
-                        cli.getJoinDelayMs(),
-                        cli.getBotNameFormat(),
-                        cli.getGameVersion(),
-                        cli.getAutoRegister()));
-    }
-
-    static void printHelp() {
-        HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(LambdaAttack.PROJECT_NAME, new CommandLineParser().options);
-    }
-
     private CommandLineParser() {
         options = new Options();
 
@@ -72,7 +38,7 @@ public class CommandLineParser {
         joinDelayOption = new IntOption(new Option("d", "delay", true, "The delay between bot spawns, in milliseconds. Defaults to 1000"), 1000);
         options.addOption(joinDelayOption.option);
 
-        nameFormatOption = new StringOption(new Option("n", "name", true, "The format for bot names. Requires exactly one integer placeholder '%d'. Defaults to 'Bot-%d'"), "Bot-%d");
+        nameFormatOption = new StringOption(new Option("n", "name", true, "The format for bot names. Requires exactly one integer placeholder '%d'. Defaults to 'AbstractBot-%d'"), "AbstractBot-%d");
         options.addOption(nameFormatOption.option);
 
         versionOption = new StringOption(new Option("v", "version", true, "The Minecraft version of the server to connect to. Defaults to 1.15.2"), GameVersion.VERSION_1_15.getVersion());
@@ -83,6 +49,30 @@ public class CommandLineParser {
 
         helpOption = new Option(null, "help", false, "Displays this help page");
         options.addOption(helpOption);
+    }
+
+    static ParseResult parse(String[] args) throws ParseException {
+        CommandLineParser cli = new CommandLineParser();
+        cli.doParse(args);
+
+        return new ParseResult(
+                cli.shouldPrintHelp(),
+                new com.github.games647.lambdaattack.Options(
+                        cli.getGameVersion(),
+                        new BotOptions(
+                                cli.getHostname(),
+                                cli.getPort(),
+                                cli.getAmount(),
+                                cli.getJoinDelayMs(),
+                                cli.getBotNameFormat(),
+                                cli.getAutoRegister()
+                        )
+                ));
+    }
+
+    static void printHelp() {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(LambdaAttack.PROJECT_NAME, new CommandLineParser().options);
     }
 
     private void doParse(String[] args) throws ParseException {
@@ -132,11 +122,21 @@ public class CommandLineParser {
         return cmd.hasOption(autoRegisterOption.getOpt());
     }
 
+    static class ParseResult {
+        final boolean showHelp;
+        final com.github.games647.lambdaattack.Options options;
+
+        ParseResult(boolean showHelp, com.github.games647.lambdaattack.Options options) {
+            this.showHelp = showHelp;
+            this.options = options;
+        }
+    }
+
     private static class TypedOption<T> {
         final Option option;
         final T defaultValue;
 
-        TypedOption(Option option, T defaultValue, Class typeClass) {
+        TypedOption(Option option, T defaultValue, Class<?> typeClass) {
             this.option = option;
             this.option.setType(typeClass);
 

@@ -2,6 +2,7 @@ package com.github.games647.lambdaattack.gui;
 
 import com.github.games647.lambdaattack.LambdaAttack;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Files;
@@ -9,9 +10,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 
 public class LoadNamesListener implements ActionListener {
 

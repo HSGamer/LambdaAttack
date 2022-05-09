@@ -1,21 +1,22 @@
-package com.github.games647.lambdaattack.bot.listener;
+package com.github.games647.lambdaattack.version.v1_15;
 
-import com.github.games647.lambdaattack.Options;
-import com.github.games647.lambdaattack.bot.Bot;
+import com.github.games647.lambdaattack.BotOptions;
+import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.bot.EntitiyLocation;
+import com.github.games647.lambdaattack.bot.SessionListener;
+import com.github.steveice10.mc.protocol.data.message.Message;
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
-import com.github.steveice10.protocol.v1_14.data.message.Message;
-import com.github.steveice10.protocol.v1_14.packet.ingame.server.ServerChatPacket;
-import com.github.steveice10.protocol.v1_14.packet.ingame.server.ServerJoinGamePacket;
-import com.github.steveice10.protocol.v1_14.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
-import com.github.steveice10.protocol.v1_14.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
 
 import java.util.logging.Level;
 
-public class SessionListener114 extends SessionListener {
+public class SessionListener115 extends SessionListener {
 
-    public SessionListener114(Options options, Bot owner) {
-        super(options, owner);
+    public SessionListener115(BotOptions botOptions, AbstractBot owner) {
+        super(botOptions, owner);
     }
 
     @Override

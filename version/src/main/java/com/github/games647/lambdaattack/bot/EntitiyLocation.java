@@ -65,7 +65,7 @@ public class EntitiyLocation {
 
     @Override
     public String toString() {
-        return "EntitiyLocation{" 
+        return "EntitiyLocation{"
                 + "posX=" + posX
                 + ", posY=" + posY
                 + ", posZ=" + posZ

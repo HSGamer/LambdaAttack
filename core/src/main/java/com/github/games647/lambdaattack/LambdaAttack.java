@@ -1,7 +1,8 @@
 package com.github.games647.lambdaattack;
 
-import com.github.games647.lambdaattack.bot.Bot;
-import com.github.steveice10.packetlib.ProxyInfo;
+import com.github.games647.lambdaattack.bot.AbstractBot;
+import com.github.games647.lambdaattack.bot.BotCreator;
+import com.github.games647.lambdaattack.profile.Profile;
 
 import java.net.Proxy;
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ public class LambdaAttack {
 
     private static final Logger LOGGER = Logger.getLogger(PROJECT_NAME);
     private static final LambdaAttack instance = new LambdaAttack();
+    private final List<AbstractBot> clients = new ArrayList<>();
+    private final ExecutorService threadPool = Executors.newCachedThreadPool();
+    private boolean running = false;
+
+    private List<Proxy> proxies;
+    private List<String> names;
 
     public static Logger getLogger() {
         return LOGGER;
@@ -26,19 +33,11 @@ public class LambdaAttack {
         return instance;
     }
 
-    private boolean running = false;
-
-    private List<ProxyInfo> proxies;
-    private List<String> names;
-
-    private final List<Bot> clients = new ArrayList<>();
-    private final ExecutorService threadPool = Executors.newCachedThreadPool();
-
     public void start(Options options) {
         running = true;
 
-        for (int i = 0; i < options.amount; i++) {
-            String username = String.format(options.botNameFormat, i);
+        for (int i = 0; i < options.botOptions.amount; i++) {
+            String username = String.format(options.botOptions.botNameFormat, i);
             if (names != null) {
                 if (names.size() <= i) {
                     LOGGER.warning("Amount is higher than the name list size. Limitting amount size now...");
@@ -48,22 +47,24 @@ public class LambdaAttack {
                 username = names.get(i);
             }
 
-            UniversalProtocol account = authenticate(options.gameVersion, username, "");
+            Profile profile = new Profile(username, "");
+            BotCreator creator = options.gameVersion.getCreator();
 
-            Bot bot;
+            AbstractBot bot;
             if (proxies != null) {
-                ProxyInfo proxy = proxies.get(i % proxies.size());
-                bot = new Bot(options, account, proxy);
+                Proxy proxy = proxies.get(i % proxies.size());
+                bot = creator.createBot(options.botOptions, profile, proxy);
             } else {
-                bot = new Bot(options, account);
+                bot = creator.createBot(options.botOptions, profile);
             }
+            bot.getLogger().setParent(LOGGER);
 
             this.clients.add(bot);
         }
 
-        for (Bot client : clients) {
+        for (AbstractBot client : clients) {
             try {
-                TimeUnit.MILLISECONDS.sleep(options.joinDelayMs);
+                TimeUnit.MILLISECONDS.sleep(options.botOptions.joinDelayMs);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -72,24 +73,11 @@ public class LambdaAttack {
                 break;
             }
 
-            client.connect(options.hostname, options.port);
+            client.connect(options.botOptions.hostname, options.botOptions.port);
         }
     }
 
-    public UniversalProtocol authenticate(GameVersion gameVersion, String username, String password) {
-        UniversalProtocol protocol;
-        if (!password.isEmpty()) {
-            throw new UnsupportedOperationException("Not implemented");
-//            protocol = new MinecraftProtocol(username, password);
-//            LOGGER.info("Successfully authenticated user");
-        } else {
-            protocol = UniversalFactory.authenticate(gameVersion, username);
-        }
-
-        return protocol;
-    }
-
-    public void setProxies(List<ProxyInfo> proxies) {
+    public void setProxies(List<Proxy> proxies) {
         this.proxies = proxies;
     }
 
@@ -99,7 +87,7 @@ public class LambdaAttack {
 
     public void stop() {
         this.running = false;
-        clients.forEach(Bot::disconnect);
+        clients.forEach(AbstractBot::disconnect);
         clients.clear();
     }
 

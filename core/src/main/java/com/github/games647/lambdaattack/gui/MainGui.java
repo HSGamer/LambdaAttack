@@ -1,29 +1,18 @@
 package com.github.games647.lambdaattack.gui;
 
+import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.GameVersion;
 import com.github.games647.lambdaattack.LambdaAttack;
 import com.github.games647.lambdaattack.Options;
 import com.github.games647.lambdaattack.logging.LogHandler;
-import java.awt.BorderLayout;
+
+import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.logging.Level;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainGui {
 
@@ -75,7 +64,7 @@ public class MainGui {
         topPanel.add(amount);
 
         topPanel.add(new JLabel("NameFormat: "));
-        JTextField nameFormat = new JTextField("Bot-%d");
+        JTextField nameFormat = new JTextField("AbstractBot-%d");
         topPanel.add(nameFormat);
 
         JComboBox<String> versionBox = new JComboBox<>();
@@ -104,17 +93,19 @@ public class MainGui {
 
         topPanel.add(loadProxies);
 
-        startButton.addActionListener((action) -> {
-            // collect the options on the gui thread
+        startButton.addActionListener(action -> {
+            // collect the botOptions on the gui thread
             // for thread-safety
             Options options = new Options(
-                    hostInput.getText(),
-                    Integer.parseInt(portInput.getText()),
-                    (int) amount.getValue(),
-                    (int) delay.getValue(),
-                    nameFormat.getText(),
                     GameVersion.findByName((String) versionBox.getSelectedItem()),
-                    autoRegister.isSelected());
+                    new BotOptions(
+                            hostInput.getText(),
+                            Integer.parseInt(portInput.getText()),
+                            (int) amount.getValue(),
+                            (int) delay.getValue(),
+                            nameFormat.getText(),
+                            autoRegister.isSelected())
+            );
 
             botManager.getThreadPool().submit(() -> {
                 try {
@@ -151,7 +142,7 @@ public class MainGui {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                 | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             LambdaAttack.getLogger().log(Level.SEVERE, null, ex);
         }
     }
