@@ -36,6 +36,9 @@ public class LambdaAttack {
     }
 
     public void start(Options options) {
+        if (running) {
+            return;
+        }
         running = true;
 
         BotCreator creator = options.gameVersion.getLoader().load().join();
@@ -94,6 +97,9 @@ public class LambdaAttack {
     }
 
     public void stop() {
+        if (!running) {
+            return;
+        }
         this.running = false;
         clients.forEach(AbstractBot::disconnect);
         clients.clear();
