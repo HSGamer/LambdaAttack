@@ -57,10 +57,9 @@
     <dependencies>
         <!--ProtocolLib for clients-->
         <dependency>
-            <groupId>com.github.Steveice10</groupId>
+            <groupId>com.github.GeyserMC</groupId>
             <artifactId>MCProtocolLib</artifactId>
-            <!-- 1.16.5 (no GitHub release yet) -->
-            <version>da520d8</version>
+            <version>1.16.5-2</version>
         </dependency>
 
         <dependency>

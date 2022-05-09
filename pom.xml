@@ -35,5 +35,9 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>opencollab</id>
+            <url>https://repo.opencollab.dev/maven-releases/</url>
+        </repository>
     </repositories>
 </project>
