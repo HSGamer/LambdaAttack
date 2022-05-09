@@ -23,4 +23,6 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            **/lambdaattack*.jar
+            ./core/target/lambdaattack-core.jar
+            ./version/target/lambdaattack-version.jar
+            ./version_*/target/lambdaattack-version*.jar
