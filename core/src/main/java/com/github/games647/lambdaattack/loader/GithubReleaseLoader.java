@@ -30,6 +30,7 @@ public class GithubReleaseLoader implements VersionLoader {
                 Path temp = Files.createTempFile("lambdaattack-bot", ".jar");
                 Files.copy(inputStream, temp, StandardCopyOption.REPLACE_EXISTING);
                 file = temp.toFile();
+                file.deleteOnExit();
             } catch (Exception e) {
                 LambdaAttack.getLogger().log(Level.SEVERE, "Failed to download the file", e);
                 return null;
