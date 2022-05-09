@@ -18,15 +18,5 @@
             <artifactId>PacketLib</artifactId>
             <version>2.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.GeyserMC</groupId>
-            <artifactId>OpenNBT</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.GeyserMC</groupId>
-            <artifactId>MCAuthLib</artifactId>
-            <version>1.4</version>
-        </dependency>
     </dependencies>
 </project>
