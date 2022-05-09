@@ -1,15 +1,15 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lambdaattack</artifactId>
+        <groupId>com.github.games647</groupId>
+        <version>2.4.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.github.games647</groupId>
-        <artifactId>lambdaattack</artifactId>
-        <version>2.4.0</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <artifactId>lambdaattack-version-1-16</artifactId>
+    <artifactId>lambdaattack-version-1-18</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -23,7 +23,7 @@
                     <relocations>
                         <relocation>
                             <pattern>com.github.steveice10.mc.protocol</pattern>
-                            <shadedPattern>com.github.steveice10.protocol.v1_16</shadedPattern>
+                            <shadedPattern>com.github.steveice10.protocol.v1_18</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.github.GeyserMC</groupId>
             <artifactId>MCProtocolLib</artifactId>
-            <version>1.16.5-2</version>
+            <version>1.18.2-1</version>
             <optional>true</optional>
         </dependency>
 

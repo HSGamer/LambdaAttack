@@ -5,10 +5,11 @@ import com.github.games647.lambdaattack.profile.Profile;
 import com.github.steveice10.packetlib.Session;
 
 import java.net.Proxy;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class AbstractBot {
-
+    private static final String DEFAULT_PASSWORD = "LambdaAttack";
     public static final char COMMAND_IDENTIFIER = '/';
 
     private final BotOptions botOptions;
@@ -30,13 +31,10 @@ public abstract class AbstractBot {
 
     public void connect(String host, int port) {
         this.session = createSession(host, port);
-        session.addListener(getSessionListener());
         session.connect();
     }
 
     public abstract void sendMessage(String message);
-
-    protected abstract SessionListener getSessionListener();
 
     protected abstract Session createSession(String host, int port);
 
@@ -91,6 +89,17 @@ public abstract class AbstractBot {
     public void disconnect() {
         if (session != null) {
             session.disconnect("Disconnect");
+        }
+    }
+
+    public void onDisconnect(String reason, Throwable cause) {
+        getLogger().log(Level.INFO, "Disconnected: {0}", reason);
+    }
+
+    public void onJoin() {
+        if (botOptions.autoRegister) {
+            sendMessage(COMMAND_IDENTIFIER + "register " + DEFAULT_PASSWORD + ' ' + DEFAULT_PASSWORD);
+            sendMessage(COMMAND_IDENTIFIER + "login " + DEFAULT_PASSWORD);
         }
     }
 }

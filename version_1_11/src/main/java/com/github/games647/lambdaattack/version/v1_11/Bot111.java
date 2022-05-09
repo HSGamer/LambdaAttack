@@ -2,7 +2,6 @@ package com.github.games647.lambdaattack.version.v1_11;
 
 import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.bot.AbstractBot;
-import com.github.games647.lambdaattack.bot.SessionListener;
 import com.github.games647.lambdaattack.profile.Profile;
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
@@ -24,11 +23,6 @@ public class Bot111 extends AbstractBot {
     }
 
     @Override
-    protected SessionListener getSessionListener() {
-        return new SessionListener111(getOptions(), this);
-    }
-
-    @Override
     protected Session createSession(String host, int port) {
         MinecraftProtocol protocol;
         if (getProfile().password.isEmpty()) {
@@ -47,6 +41,8 @@ public class Bot111 extends AbstractBot {
         } else {
             client = new Client(host, port, protocol, new TcpSessionFactory(getProxy()));
         }
-        return client.getSession();
+        Session session = client.getSession();
+        session.addListener(new SessionListener111(this));
+        return session;
     }
 }

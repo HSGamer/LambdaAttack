@@ -6,6 +6,7 @@ import com.github.games647.lambdaattack.version.v1_12.Bot112;
 import com.github.games647.lambdaattack.version.v1_14.Bot114;
 import com.github.games647.lambdaattack.version.v1_15.Bot115;
 import com.github.games647.lambdaattack.version.v1_16.Bot116;
+import com.github.games647.lambdaattack.version.v1_18.Bot118;
 
 public enum GameVersion {
 
@@ -13,7 +14,8 @@ public enum GameVersion {
     VERSION_1_12("1.12.2", Bot112::new),
     VERSION_1_14("1.14.4", Bot114::new),
     VERSION_1_15("1.15.2", Bot115::new),
-    VERSION_1_16("1.16.5", Bot116::new);
+    VERSION_1_16("1.16.5", Bot116::new),
+    VERSION_1_18("1.18.2", Bot118::new);
 
     private final String version;
     private final BotCreator creator;

@@ -80,6 +80,11 @@
             <artifactId>lambdaattack-version-1-16</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.games647</groupId>
+            <artifactId>lambdaattack-version-1-18</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-cli</groupId>

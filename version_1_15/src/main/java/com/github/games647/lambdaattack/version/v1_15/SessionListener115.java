@@ -1,22 +1,28 @@
 package com.github.games647.lambdaattack.version.v1_15;
 
-import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.bot.EntitiyLocation;
-import com.github.games647.lambdaattack.bot.SessionListener;
 import com.github.steveice10.mc.protocol.data.message.Message;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerPositionRotationPacket;
+import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
+import com.github.steveice10.packetlib.event.session.SessionAdapter;
 
 import java.util.logging.Level;
 
-public class SessionListener115 extends SessionListener {
+public class SessionListener115 extends SessionAdapter {
+    private final AbstractBot owner;
 
-    public SessionListener115(BotOptions botOptions, AbstractBot owner) {
-        super(botOptions, owner);
+    public SessionListener115(AbstractBot owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public void disconnected(DisconnectedEvent event) {
+        owner.onDisconnect(event.getReason(), event.getCause());
     }
 
     @Override
@@ -40,7 +46,7 @@ public class SessionListener115 extends SessionListener {
             owner.setHealth(healthPacket.getHealth());
             owner.setFood(healthPacket.getFood());
         } else if (receiveEvent.getPacket() instanceof ServerJoinGamePacket) {
-            super.onJoin();
+            owner.onJoin();
         }
     }
 }

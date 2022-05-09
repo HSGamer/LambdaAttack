@@ -41,7 +41,7 @@ public class CommandLineParser {
         nameFormatOption = new StringOption(new Option("n", "name", true, "The format for bot names. Requires exactly one integer placeholder '%d'. Defaults to 'AbstractBot-%d'"), "AbstractBot-%d");
         options.addOption(nameFormatOption.option);
 
-        versionOption = new StringOption(new Option("v", "version", true, "The Minecraft version of the server to connect to. Defaults to 1.15.2"), GameVersion.VERSION_1_15.getVersion());
+        versionOption = new StringOption(new Option("v", "version", true, "The Minecraft version of the server to connect to. Defaults to 1.18.2"), GameVersion.VERSION_1_18.getVersion());
         options.addOption(versionOption.option);
 
         autoRegisterOption = new Option("r", "register", false, "Makes Bots run the /register and /login command after joining with username and password being " + LambdaAttack.PROJECT_NAME);
