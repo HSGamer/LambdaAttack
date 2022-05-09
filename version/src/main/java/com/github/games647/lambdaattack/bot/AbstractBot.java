@@ -93,13 +93,14 @@ public abstract class AbstractBot {
     }
 
     public void onDisconnect(String reason, Throwable cause) {
-        getLogger().log(Level.INFO, "Disconnected: {0}", reason);
+        getLogger().log(Level.INFO, "{0} disconnected: {1}", new Object[]{profile.name, reason});
         if (cause != null) {
             getLogger().log(Level.INFO, "Cause: {0}", cause.getMessage());
         }
     }
 
     public void onJoin() {
+        getLogger().log(Level.INFO, "{0} joined", profile.name);
         if (botOptions.autoRegister) {
             sendMessage(COMMAND_IDENTIFIER + "register " + DEFAULT_PASSWORD + ' ' + DEFAULT_PASSWORD);
             sendMessage(COMMAND_IDENTIFIER + "login " + DEFAULT_PASSWORD);
