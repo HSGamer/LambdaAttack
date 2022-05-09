@@ -36,8 +36,8 @@ public class LambdaAttack {
     public void start(Options options) {
         running = true;
 
-        for (int i = 0; i < options.botOptions.amount; i++) {
-            String username = String.format(options.botOptions.botNameFormat, i);
+        for (int i = 0; i < options.amount; i++) {
+            String username = String.format(options.botNameFormat, i);
             if (names != null) {
                 if (names.size() <= i) {
                     LOGGER.warning("Amount is higher than the name list size. Limitting amount size now...");
@@ -64,7 +64,7 @@ public class LambdaAttack {
 
         for (AbstractBot client : clients) {
             try {
-                TimeUnit.MILLISECONDS.sleep(options.botOptions.joinDelayMs);
+                TimeUnit.MILLISECONDS.sleep(options.joinDelayMs);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -73,7 +73,7 @@ public class LambdaAttack {
                 break;
             }
 
-            client.connect(options.botOptions.hostname, options.botOptions.port);
+            client.connect(options.hostname, options.port);
         }
     }
 

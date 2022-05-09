@@ -98,13 +98,14 @@ public class MainGui {
             // for thread-safety
             Options options = new Options(
                     GameVersion.findByName((String) versionBox.getSelectedItem()),
+                    hostInput.getText(),
+                    Integer.parseInt(portInput.getText()),
+                    (int) amount.getValue(),
+                    (int) delay.getValue(),
+                    nameFormat.getText(),
                     new BotOptions(
-                            hostInput.getText(),
-                            Integer.parseInt(portInput.getText()),
-                            (int) amount.getValue(),
-                            (int) delay.getValue(),
-                            nameFormat.getText(),
-                            autoRegister.isSelected())
+                            autoRegister.isSelected()
+                    )
             );
 
             botManager.getThreadPool().submit(() -> {

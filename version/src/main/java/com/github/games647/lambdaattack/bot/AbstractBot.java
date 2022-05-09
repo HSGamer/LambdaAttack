@@ -9,9 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class AbstractBot {
-    private static final String DEFAULT_PASSWORD = "LambdaAttack";
     public static final char COMMAND_IDENTIFIER = '/';
-
+    private static final String DEFAULT_PASSWORD = "LambdaAttack";
     private final BotOptions botOptions;
     private final Proxy proxy;
     private final Profile profile;

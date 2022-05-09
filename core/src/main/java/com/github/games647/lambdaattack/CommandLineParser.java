@@ -59,12 +59,12 @@ public class CommandLineParser {
                 cli.shouldPrintHelp(),
                 new com.github.games647.lambdaattack.Options(
                         cli.getGameVersion(),
+                        cli.getHostname(),
+                        cli.getPort(),
+                        cli.getAmount(),
+                        cli.getJoinDelayMs(),
+                        cli.getBotNameFormat(),
                         new BotOptions(
-                                cli.getHostname(),
-                                cli.getPort(),
-                                cli.getAmount(),
-                                cli.getJoinDelayMs(),
-                                cli.getBotNameFormat(),
                                 cli.getAutoRegister()
                         )
                 ));
