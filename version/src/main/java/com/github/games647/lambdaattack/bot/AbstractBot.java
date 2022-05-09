@@ -93,10 +93,7 @@ public abstract class AbstractBot {
     }
 
     public void onDisconnect(String reason, Throwable cause) {
-        getLogger().log(Level.INFO, "{0} disconnected: {1}", new Object[]{profile.name, reason});
-        if (cause != null) {
-            getLogger().log(Level.INFO, "Cause: {0}", cause.getMessage());
-        }
+        getLogger().log(Level.INFO, "{0} disconnected: {1} ({2})", new Object[]{profile.name, reason, cause != null ? cause.getMessage() : "unknown"});
     }
 
     public void onJoin() {
