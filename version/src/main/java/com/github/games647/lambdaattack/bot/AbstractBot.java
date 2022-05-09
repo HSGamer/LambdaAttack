@@ -94,6 +94,9 @@ public abstract class AbstractBot {
 
     public void onDisconnect(String reason, Throwable cause) {
         getLogger().log(Level.INFO, "Disconnected: {0}", reason);
+        if (cause != null) {
+            getLogger().log(Level.INFO, "Cause: {0}", cause.getMessage());
+        }
     }
 
     public void onJoin() {
