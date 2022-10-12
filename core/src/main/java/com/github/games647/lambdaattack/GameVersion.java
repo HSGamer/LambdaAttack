@@ -12,6 +12,8 @@ public enum GameVersion {
     VERSION_1_15("1.15.2", new GithubReleaseLoader("lambdaattack-version-1-15.jar")),
     VERSION_1_16("1.16.5", new GithubReleaseLoader("lambdaattack-version-1-16.jar")),
     VERSION_1_18("1.18.2", new GithubReleaseLoader("lambdaattack-version-1-18.jar")),
+    VERSION_1_19("1.19", new GithubReleaseLoader("lambdaattack-version-1-19.jar")),
+    VERSION_1_19_1("1.19.1/2", new GithubReleaseLoader("lambdaattack-version-1-19-1.jar")),
     CUSTOM("custom", new CustomLoader());
 
     private final String version;

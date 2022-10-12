@@ -16,6 +16,8 @@
         <module>version_1_15</module>
         <module>version_1_16</module>
         <module>version_1_18</module>
+        <module>version_1_19</module>
+        <module>version_1_19_1</module>
         <module>core</module>
     </modules>
 
@@ -54,6 +56,14 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>opencollab</id>
+            <url>https://repo.opencollab.dev/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>opencollab-snapshots</id>
+            <url>https://repo.opencollab.dev/maven-snapshots/</url>
         </repository>
     </repositories>
 </project>
