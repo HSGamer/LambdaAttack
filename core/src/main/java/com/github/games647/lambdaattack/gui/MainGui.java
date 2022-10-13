@@ -66,14 +66,6 @@ public class MainGui {
         JTextField nameFormat = new JTextField("AbstractBot-%d");
         topPanel.add(nameFormat);
 
-        JComboBox<String> versionBox = new JComboBox<>();
-        Arrays.stream(GameVersion.values())
-                .sorted(Comparator.reverseOrder())
-                .map(GameVersion::getVersion)
-                .forEach(versionBox::addItem);
-
-        topPanel.add(versionBox);
-
         JButton loadNames = new JButton("Load Names");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("", "txt"));
@@ -111,6 +103,14 @@ public class MainGui {
         };
         commandInput.addActionListener(commandListener);
         commandPanel.add(commandInput);
+
+        JComboBox<String> versionBox = new JComboBox<>();
+        Arrays.stream(GameVersion.values())
+                .sorted(Comparator.reverseOrder())
+                .map(GameVersion::getVersion)
+                .forEach(versionBox::addItem);
+
+        commandPanel.add(versionBox);
 
         JButton startButton = new JButton("Start");
         JButton stopButton = new JButton("Stop");
