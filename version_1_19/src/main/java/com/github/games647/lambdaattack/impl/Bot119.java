@@ -4,14 +4,13 @@ import com.github.games647.lambdaattack.BotOptions;
 import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.profile.Profile;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
-import com.github.steveice10.mc.protocol.data.game.BuiltinChatType;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundSystemChatPacket;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.packetlib.ProxyInfo;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.tcp.TcpClientSession;
-import net.kyori.adventure.text.Component;
 
 import java.net.Proxy;
+import java.time.Instant;
 
 public class Bot119 extends AbstractBot {
     private Session session;
@@ -52,7 +51,7 @@ public class Bot119 extends AbstractBot {
 
     @Override
     public void sendMessage(String message) {
-        session.send(new ClientboundSystemChatPacket(Component.text(message), BuiltinChatType.SYSTEM.ordinal()));
+        session.send(new ServerboundChatPacket(message, Instant.now().toEpochMilli(), 0, new byte[0], false));
     }
 
     @Override

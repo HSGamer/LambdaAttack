@@ -105,6 +105,10 @@ public class LambdaAttack {
         clients.clear();
     }
 
+    public List<AbstractBot> getClients() {
+        return clients;
+    }
+
     public ExecutorService getThreadPool() {
         return threadPool;
     }

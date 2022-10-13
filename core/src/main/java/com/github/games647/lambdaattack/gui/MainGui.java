@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.logging.Level;
@@ -27,20 +28,18 @@ public class MainGui {
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         setLookAndFeel();
-
-        JPanel topPanel = setTopPane();
-        JScrollPane buttonPane = setButtonPane();
-
-        this.frame.add(topPanel, BorderLayout.PAGE_START);
-        this.frame.add(buttonPane, BorderLayout.CENTER);
+        setupPanels();
         this.frame.pack();
         this.frame.setVisible(true);
 
         LambdaAttack.getLogger().info("Starting program");
     }
 
-    private JPanel setTopPane() {
+    private void setupPanels() {
+        // Top panel
         JPanel topPanel = new JPanel();
+        frame.add(topPanel, BorderLayout.PAGE_START);
+
         topPanel.add(new JLabel("Host: "));
         JTextField hostInput = new JTextField("127.0.0.1");
         topPanel.add(hostInput);
@@ -75,11 +74,6 @@ public class MainGui {
 
         topPanel.add(versionBox);
 
-        JButton startButton = new JButton("Start");
-        JButton stopButton = new JButton("Stop");
-        topPanel.add(startButton);
-        topPanel.add(stopButton);
-
         JButton loadNames = new JButton("Load Names");
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("", "txt"));
@@ -92,6 +86,38 @@ public class MainGui {
         loadProxies.addActionListener(new LoadProxiesListener(botManager, frame, fileChooser));
 
         topPanel.add(loadProxies);
+
+        // Console panel
+        JScrollPane consolePane = new JScrollPane();
+        frame.add(consolePane, BorderLayout.CENTER);
+        consolePane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        consolePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        JTextArea logArea = new JTextArea(10, 1);
+        consolePane.getViewport().setView(logArea);
+
+        LambdaAttack.getLogger().addHandler(new LogHandler(logArea));
+
+        // Command panel
+        JPanel commandPanel = new JPanel();
+        frame.add(commandPanel, BorderLayout.PAGE_END);
+
+        JTextField commandInput = new JTextField(60);
+        ActionListener commandListener = actionEvent -> {
+            String message = commandInput.getText();
+            if (message == null || message.isEmpty()) return;
+            botManager.getClients().forEach(client -> client.sendMessage(message));
+            commandInput.setText("");
+        };
+        commandInput.addActionListener(commandListener);
+        commandPanel.add(commandInput);
+
+        JButton startButton = new JButton("Start");
+        JButton stopButton = new JButton("Stop");
+        JButton clearButton = new JButton("Clear");
+        commandPanel.add(startButton);
+        commandPanel.add(stopButton);
+        commandPanel.add(clearButton);
 
         startButton.addActionListener(action -> {
             // collect the botOptions on the gui thread
@@ -118,20 +144,8 @@ public class MainGui {
         });
 
         stopButton.addActionListener(action -> botManager.stop());
-        return topPanel;
-    }
 
-    private JScrollPane setButtonPane() throws SecurityException {
-        JScrollPane buttonPane = new JScrollPane();
-        buttonPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        buttonPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        JTextArea logArea = new JTextArea(10, 1);
-        buttonPane.getViewport().setView(logArea);
-
-        LambdaAttack.getLogger().addHandler(new LogHandler(logArea));
-
-        return buttonPane;
+        clearButton.addActionListener(action -> logArea.setText(""));
     }
 
     private void setLookAndFeel() {

@@ -2,9 +2,10 @@ package com.github.games647.lambdaattack.impl;
 
 import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.bot.EntitiyLocation;
+import com.github.steveice10.mc.protocol.data.DefaultComponentSerializer;
+import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.clientbound.entity.player.ClientboundSetHealthPacket;
-import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.player.ServerboundMovePlayerPosRotPacket;
 import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
@@ -27,10 +28,9 @@ public class SessionListener118 extends SessionAdapter {
 
     @Override
     public void packetReceived(Session session, Packet packet) {
-        if (packet instanceof ServerboundChatPacket) {
-            ServerboundChatPacket chatPacket = (ServerboundChatPacket) packet;
-            // Message API was replaced in version 1.16
-            String message = chatPacket.getMessage();
+        if (packet instanceof ClientboundChatPacket) {
+            ClientboundChatPacket chatPacket = (ClientboundChatPacket) packet;
+            String message = DefaultComponentSerializer.get().serialize(chatPacket.getMessage());
             owner.getLogger().log(Level.INFO, "Received Message: {0}", message);
         } else if (packet instanceof ServerboundMovePlayerPosRotPacket) {
             ServerboundMovePlayerPosRotPacket posPacket = (ServerboundMovePlayerPosRotPacket) packet;

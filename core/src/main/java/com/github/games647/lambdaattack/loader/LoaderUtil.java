@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 public class LoaderUtil {
     public static BotCreator getBotCreator(File file) {
-        try (JarFile jarFile = new JarFile(file)){
+        try (JarFile jarFile = new JarFile(file)) {
             Manifest manifest = jarFile.getManifest();
             String mainClass = manifest.getMainAttributes().getValue("Main-Class");
             if (mainClass == null) {
