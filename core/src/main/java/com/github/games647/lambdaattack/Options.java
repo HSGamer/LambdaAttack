@@ -28,6 +28,7 @@ public class Options {
     public String getBotName(int botId) {
         if (botNameFormat.equalsIgnoreCase("random")) {
             return IntStream.range(0, ThreadLocalRandom.current().nextInt(3, 16))
+                    .parallel()
                     .mapToObj(i -> allowedChars[ThreadLocalRandom.current().nextInt(allowedChars.length)])
                     .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                     .toString();
