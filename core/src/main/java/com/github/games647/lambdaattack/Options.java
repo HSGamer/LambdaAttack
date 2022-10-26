@@ -1,5 +1,8 @@
 package com.github.games647.lambdaattack;
 
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+
 public class Options {
     public final GameVersion gameVersion;
 
@@ -18,5 +21,17 @@ public class Options {
         this.joinDelayMs = joinDelayMs;
         this.botNameFormat = botNameFormat;
         this.botOptions = botOptions;
+    }
+
+    private static final char[] allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_".toCharArray();
+
+    public String getBotName(int botId) {
+        if (botNameFormat.equalsIgnoreCase("random")) {
+            return IntStream.range(0, 20)
+                    .mapToObj(i -> allowedChars[ThreadLocalRandom.current().nextInt(allowedChars.length)])
+                    .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                    .toString() + botId;
+        }
+        return String.format(botNameFormat, botId);
     }
 }

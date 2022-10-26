@@ -85,7 +85,7 @@ public class MainGui {
         consolePane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         consolePane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JTextArea logArea = new JTextArea(10, 1);
+        JTextArea logArea = new JTextArea(20, 1);
         consolePane.getViewport().setView(logArea);
 
         LambdaAttack.getLogger().addHandler(new LogHandler(logArea));

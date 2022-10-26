@@ -49,7 +49,7 @@ public class LambdaAttack {
         }
 
         for (int i = 0; i < options.amount; i++) {
-            String username = String.format(options.botNameFormat, i);
+            String username = options.getBotName(i);
             if (names != null) {
                 if (names.size() <= i) {
                     LOGGER.warning("Amount is higher than the name list size. Limitting amount size now...");
