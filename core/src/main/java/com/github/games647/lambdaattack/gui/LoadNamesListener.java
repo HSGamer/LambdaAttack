@@ -3,6 +3,7 @@ package com.github.games647.lambdaattack.gui;
 import com.github.games647.lambdaattack.LambdaAttack;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Files;
@@ -18,11 +19,12 @@ public class LoadNamesListener implements ActionListener {
     private final JFrame frame;
     private final JFileChooser fileChooser;
 
-    public LoadNamesListener(LambdaAttack botManager, JFrame frame, JFileChooser fileChooser) {
+    public LoadNamesListener(LambdaAttack botManager, JFrame frame) {
         this.botManager = botManager;
 
         this.frame = frame;
-        this.fileChooser = fileChooser;
+        fileChooser = new JFileChooser();
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("", "txt"));
     }
 
     @Override

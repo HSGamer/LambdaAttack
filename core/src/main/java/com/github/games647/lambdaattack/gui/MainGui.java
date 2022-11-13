@@ -8,7 +8,6 @@ import com.github.games647.lambdaattack.logging.LogHandler;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -67,16 +66,11 @@ public class MainGui {
         topPanel.add(nameFormat);
 
         JButton loadNames = new JButton("Load Names");
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("", "txt"));
-        loadNames.addActionListener(new LoadNamesListener(botManager, frame, fileChooser));
-
+        loadNames.addActionListener(new LoadNamesListener(botManager, frame));
         topPanel.add(loadNames);
 
         JButton loadProxies = new JButton("Load proxies");
-
-        loadProxies.addActionListener(new LoadProxiesListener(botManager, frame, fileChooser));
-
+        loadProxies.addActionListener(new LoadProxiesListener(botManager, frame));
         topPanel.add(loadProxies);
 
         // Console panel

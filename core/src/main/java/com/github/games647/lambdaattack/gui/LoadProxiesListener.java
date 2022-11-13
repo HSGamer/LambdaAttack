@@ -21,11 +21,11 @@ public class LoadProxiesListener implements ActionListener {
     private final JFrame frame;
     private final JFileChooser fileChooser;
 
-    public LoadProxiesListener(LambdaAttack botManager, JFrame frame, JFileChooser fileChooser) {
+    public LoadProxiesListener(LambdaAttack botManager, JFrame frame) {
         this.botManager = botManager;
 
         this.frame = frame;
-        this.fileChooser = fileChooser;
+        fileChooser = new JFileChooser();
     }
 
     @Override
