@@ -1,9 +1,10 @@
 package com.github.games647.lambdaattack.impl;
 
 import com.github.games647.lambdaattack.BotOptions;
-import com.github.games647.lambdaattack.bot.AbstractBot;
+import com.github.games647.lambdaattack.bot.ModernAbstractBot;
 import com.github.games647.lambdaattack.profile.Profile;
 import com.github.steveice10.mc.protocol.MinecraftProtocol;
+import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatCommandPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.serverbound.ServerboundChatPacket;
 import com.github.steveice10.packetlib.ProxyInfo;
 import com.github.steveice10.packetlib.Session;
@@ -11,8 +12,9 @@ import com.github.steveice10.packetlib.tcp.TcpClientSession;
 
 import java.net.Proxy;
 import java.time.Instant;
+import java.util.Collections;
 
-public class Bot119 extends AbstractBot {
+public class Bot119 extends ModernAbstractBot {
     private Session session;
 
     Bot119(BotOptions botOptions, Profile profile, Proxy proxy) {
@@ -50,8 +52,13 @@ public class Bot119 extends AbstractBot {
     }
 
     @Override
-    public void sendMessage(String message) {
+    protected void sendChatMessage(String message) {
         session.send(new ServerboundChatPacket(message, Instant.now().toEpochMilli(), 0, new byte[0], false));
+    }
+
+    @Override
+    protected void sendCommand(String command) {
+        session.send(new ServerboundChatCommandPacket(command, Instant.now().toEpochMilli(), 0, Collections.emptyMap(), false));
     }
 
     @Override
