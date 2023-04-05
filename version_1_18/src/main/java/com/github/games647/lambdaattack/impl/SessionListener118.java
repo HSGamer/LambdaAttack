@@ -11,6 +11,8 @@ import com.github.steveice10.packetlib.Session;
 import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.github.steveice10.packetlib.packet.Packet;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
 import java.util.logging.Level;
 
@@ -30,8 +32,9 @@ public class SessionListener118 extends SessionAdapter {
     public void packetReceived(Session session, Packet packet) {
         if (packet instanceof ClientboundChatPacket) {
             ClientboundChatPacket chatPacket = (ClientboundChatPacket) packet;
-            String message = DefaultComponentSerializer.get().serialize(chatPacket.getMessage());
-            owner.getLogger().log(Level.INFO, "Received Message: {0}", message);
+            Component message = chatPacket.getMessage();
+            owner.getLogger().log(Level.INFO, "Received Message: {0}", DefaultComponentSerializer.get().serialize(message));
+            owner.getLogger().log(Level.INFO, "Content: {0}", (message instanceof TextComponent ? ((TextComponent) message).content() : ""));
         } else if (packet instanceof ServerboundMovePlayerPosRotPacket) {
             ServerboundMovePlayerPosRotPacket posPacket = (ServerboundMovePlayerPosRotPacket) packet;
 

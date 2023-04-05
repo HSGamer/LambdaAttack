@@ -2,6 +2,7 @@ package com.github.games647.lambdaattack.impl;
 
 import com.github.games647.lambdaattack.bot.AbstractBot;
 import com.github.games647.lambdaattack.bot.EntitiyLocation;
+import com.github.steveice10.mc.protocol.data.DefaultComponentSerializer;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerChatPacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.ServerJoinGamePacket;
 import com.github.steveice10.mc.protocol.packet.ingame.server.entity.player.ServerPlayerHealthPacket;
@@ -10,6 +11,7 @@ import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
 import com.github.steveice10.packetlib.event.session.PacketReceivedEvent;
 import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 
 import java.util.logging.Level;
 
@@ -31,7 +33,8 @@ public class SessionListener116 extends SessionAdapter {
             ServerChatPacket chatPacket = receiveEvent.getPacket();
             // Message API was replaced in version 1.16
             Component message = chatPacket.getMessage();
-            owner.getLogger().log(Level.INFO, "Received Message: {0}", message);
+            owner.getLogger().log(Level.INFO, "Received Message: {0}", DefaultComponentSerializer.get().serialize(message));
+            owner.getLogger().log(Level.INFO, "Content: {0}", (message instanceof TextComponent ? ((TextComponent) message).content() : ""));
         } else if (receiveEvent.getPacket() instanceof ServerPlayerPositionRotationPacket) {
             ServerPlayerPositionRotationPacket posPacket = receiveEvent.getPacket();
 
